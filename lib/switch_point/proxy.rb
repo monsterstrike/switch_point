@@ -3,7 +3,7 @@ module SwitchPoint
     attr_reader :initial_name
 
     AVAILABLE_MODES = [:writable, :readonly]
-    DEFAULT_MODE = :readonly
+    DEFAULT_MODE = :writable
 
     def initialize(name)
       @initial_name = name
