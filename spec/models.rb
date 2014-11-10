@@ -1,6 +1,6 @@
 SwitchPoint.configure do |config|
   config.define_switch_point :main,
-    readonly: :main_readonly,
+    readonly: [:main_readonly, :main_readonly2],
     writable: :main_writable
   config.define_switch_point :main2,
     readonly: :main2_readonly,
@@ -88,6 +88,7 @@ end
 base = { adapter: 'sqlite3' }
 ActiveRecord::Base.configurations = {
   'main_readonly' => base.merge(database: 'main_readonly.sqlite3'),
+  'main_readonly2' => base.merge(database: 'main_readonly.sqlite3'),
   'main_writable' => base.merge(database: 'main_writable.sqlite3'),
   'main2_readonly' => base.merge(database: 'main2_readonly.sqlite3'),
   'main2_writable' => base.merge(database: 'main2_writable.sqlite3'),

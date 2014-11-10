@@ -22,7 +22,12 @@ module SwitchPoint
     end
 
     def database_name(name, mode)
-      switch_points[name][mode]
+      config = switch_points[name][mode]
+      if config.is_a?(Array)
+        config.sample
+      else
+        config
+      end
     end
 
     def model_name(name, mode)
@@ -48,8 +53,16 @@ module SwitchPoint
         raise ArgumentError.new(':readonly or :writable must be specified')
       end
       if config.has_key?(:readonly)
-        unless config[:readonly].is_a?(Symbol)
-          raise TypeError.new(":readonly's value must be Symbol")
+        unless config[:readonly].is_a?(Symbol) || config[:readonly].is_a?(Array)
+          raise TypeError.new(":readonly's value must be Symbol or Array")
+        end
+
+        if config[:readonly].is_a?(Array)
+          config[:readonly].each do |readonly_value|
+            unless readonly_value.is_a?(Symbol)
+              raise TypeError.new(":readonly array's value must be Symbol")
+            end
+          end
         end
       end
       if config.has_key?(:writable)
